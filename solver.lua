@@ -5,7 +5,7 @@ local function make_context()
 	{
 		points = {},
 		objects = {},
-		target = {}
+		targets = {}
 	}
 end
 
@@ -82,14 +82,30 @@ end
 
 local function check_solved(context)
 	
-	for _,p in ipairs(context.points) do
-		if geom.equal(p, context.target) then
-			context.target = p
-			return true
+	local num_reached = 0
+	for i,target in ipairs(context.targets) do
+	
+		if target.type == "point" then
+			for _,p in ipairs(context.points) do
+				if geom.equal(p, target) then
+					
+					context.targets[i] = p		-- for parent information
+					num_reached = num_reached + 1
+					break
+				end
+			end
+		
+		else
+			for _,o in ipairs(context.objects) do
+				if geom.equal(o, target) then
+					num_reached = num_reached + 1
+					break
+				end
+			end
 		end
 	end
 	
-	return false
+	return num_reached == #context.targets
 end
 
 local function rec(context, depth)
@@ -178,7 +194,11 @@ local function pretty_print(context)
 		
 	end
 	
-	point_name(context.target)
+	for _,p in ipairs(context.targets) do
+		if p.type == "point" then
+			point_name(p)
+		end
+	end
 	
 end
 
@@ -186,13 +206,13 @@ local function test()
 
 	local c = make_context()
 
-	local p1 = geom.Point(0,1)
+	local p1 = geom.Point(-1,0)
 	local p2 = geom.Point(1,0)
 
 	c.points = {p1,p2}
-	c.target = geom.Point(0.5, 0.5)
+	c.targets = {geom.Circle(geom.Point(2,0), geom.Point(3,0))}
 	
-	rec(c, 3)
+	rec(c, 5)
 	
 	if c.solved then
 		pretty_print(c)
