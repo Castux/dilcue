@@ -16,8 +16,17 @@ local function all_intersections(object, context)
 	for _, previous in ipairs(context.objects) do
 		
 		local i1,i2 = geom.intersection(previous, object)
-		if i1 then table.insert(points, i1) end
-		if i2 then table.insert(points, i2) end
+		if i1 then
+			i1.parent1 = previous
+			i1.parent2 = object
+			table.insert(points, i1)
+		end
+		
+		if i2 then
+			i2.parent1 = previous
+			i2.parent2 = object
+			table.insert(points, i2)
+		end
 	end
 	
 	return points
@@ -75,6 +84,7 @@ local function check_solved(context)
 	
 	for _,p in ipairs(context.points) do
 		if geom.equal(p, context.target) then
+			context.target = p
 			return true
 		end
 	end
@@ -85,7 +95,7 @@ end
 local function rec(context, depth)
 
 	if check_solved(context) then
-		print "Solved"
+		context.solved = true
 		return
 	end
 
@@ -119,6 +129,10 @@ local function rec(context, depth)
 					
 					rec(context, depth-1)
 					
+					if context.solved then
+						return
+					end
+					
 					-- backtrack
 					for i = num_points_before + 1, #context.points do
 						context.points[i] = nil
@@ -129,6 +143,42 @@ local function rec(context, depth)
 			end
 		end
 	end
+	
+end
+
+
+local function pretty_print(context)
+	
+	local point_num = 1
+	local function point_name(p)
+		if not p.name then
+			p.name = "point" .. point_num
+			point_num = point_num + 1
+			
+			local loc = '(' .. p.x .. ',' .. p.y .. ')'
+			
+			if p.parent1 and p.parent2 then
+				print('*' .. p.name, p.parent1.name .. ' x ' .. p.parent2.name .. " " .. loc)
+			else
+				print('*' .. p.name, "given" .. " " .. loc)
+			end
+		end
+		
+		return p.name
+	end
+	
+	for i,o in ipairs(context.objects) do
+		
+		o.name = o.type .. i
+		if o.type == "line" then
+			print(o.name, point_name(o.p1) .. ' -- ' .. point_name(o.p2))
+		else
+			print(o.name, point_name(o.center) .. ' -> ' .. point_name(o.p))
+		end
+		
+	end
+	
+	point_name(context.target)
 	
 end
 
@@ -143,6 +193,10 @@ local function test()
 	c.target = geom.Point(0.5, 0.5)
 	
 	rec(c, 3)
+	
+	if c.solved then
+		pretty_print(c)
+	end
 end
 
 test()
