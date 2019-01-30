@@ -3,7 +3,7 @@ local eps = 1e-5
 --[[ Point ]]--
 
 local function Point(x,y)
-	return { x = x, y = y }
+	return { type = "point", x = x, y = y }
 end
 
 local function pp_squared_distance(p1,p2)
@@ -30,7 +30,7 @@ end
 
 
 local function Line(p1,p2)
-	return { p1 = p1, p2 = p2 }
+	return { type = "line", p1 = p1, p2 = p2 }
 end
 
 local function pl_point_on_line(p,l)
@@ -72,7 +72,7 @@ local function Circle(center, p)
 	local sqrad = pp_squared_distance(center, p)
 	local rad = math.sqrt(sqrad)
 	
-	return { center = center, p = p, sqrad = sqrad, rad = rad }
+	return { type = "circle", center = center, p = p, sqrad = sqrad, rad = rad }
 end
 
 local function pc_point_on_circle(p,c)
@@ -102,10 +102,10 @@ local function lc_intersection(l,c)
 	if math.abs(delta) < eps then
 		local ix = D * dy / dr2
 		local iy = -D * dx / dr2
-		return { Point(ix + c.center.x, iy + c.center.y) }
+		return Point(ix + c.center.x, iy + c.center.y)
 
 	elseif delta < 0 then
-		return {}
+		return nil
 
 	else
 		local signdy = dy < 0 and -1 or 1
@@ -114,10 +114,9 @@ local function lc_intersection(l,c)
 		local tmpy = math.abs(dy) * math.sqrt(delta)
 
 		return
-		{
 			Point((D * dy + tmpx) / dr2 + c.center.x, (-D * dx + tmpy) / dr2 + c.center.y),
-			Point((D * dy - tmpx) / dr2 + c.center.x, (-D * dx - tmpy) / dr2 + c.center.y),
-		}
+			Point((D * dy - tmpx) / dr2 + c.center.x, (-D * dx - tmpy) / dr2 + c.center.y)
+		
 	end
 end
 
@@ -130,7 +129,7 @@ local function cc_intersection(c1,c2)
 	local r1 = c2.rad
 	
 	if d > r0 + r1 + eps or d < math.abs(r0 - r1) - eps or cc_equal(c1,c2) then
-		return {}
+		return nil
 	end
 	
 	local a = (r0 * r0 - r1 * r1 + d * d) / (2 * d)
@@ -141,17 +140,15 @@ local function cc_intersection(c1,c2)
 	local h = math.sqrt(r0 * r0 - a * a)
 	
 	if h < eps then
-		return { Point(px,py) }
+		return Point(px,py)
 	end
 	
 	local tmpx = h * (c2.center.y - c1.center.y) / d
 	local tmpy = -h * (c2.center.x - c1.center.x) / d
 	
 	return
-	{
-			Point(px + tmpx, py + tmpy),
-			Point(px - tmpx, py - tmpy)
-	}	
+		Point(px + tmpx, py + tmpy),
+		Point(px - tmpx, py - tmpy)	
 end
 
 local function test()
@@ -269,7 +266,39 @@ local function test()
 
 end
 
-test()
+local function equal(a,b)
+	
+	if a.type ~= b.type then
+		return false
+	end
+	
+	if a.type == "point" then
+		return pp_equal(a,b)
+	elseif a.type == "line" then
+		return ll_equal(a,b)
+	elseif a.type == "circle" then
+		return cc_equal(a,b)
+	else
+		error("Unknown type: " .. (a.type or "nil"))
+	end
+
+end
+
+local function intersection(a,b)
+
+	if a.type == "line" and b.type == "line" then
+		return ll_intersection(a,b)
+	elseif a.type == "line" and b.type == "circle" then
+		return lc_intersection(a,b)
+	elseif a.type == "circle" and b.type == "line" then
+		return lc_intersection(b,a)
+	elseif a.type == "circle" and b.type == "circle" then
+		return cc_intersection(a,b)
+	else
+		error("Bad types: " .. (a.type or "nil") .. " " .. (b.type or "nil"))
+	end
+
+end
 
 return
 {
@@ -277,11 +306,6 @@ return
 	Line = Line,
 	Circle = Circle,
 	
-	pp_equal = pp_equal,
-	ll_equal = ll_equal,
-	cc_equal = cc_equal,
-	
-	ll_intersection = ll_intersection,
-	lc_intersection = lc_intersection,
-	cc_intersection = cc_intersection
+	equal = equal,
+	intersection = intersection
 }
