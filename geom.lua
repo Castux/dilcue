@@ -135,7 +135,7 @@ local function cc_intersection(c1,c2)
 	local r0 = c1.rad
 	local r1 = c2.rad
 	
-	if d > r0 + r1 or d < math.abs(r0 - r1) or cc_equal(c1,c2) then
+	if d > r0 + r1 + eps or d < math.abs(r0 - r1) - eps or cc_equal(c1,c2) then
 		return {}
 	end
 	
