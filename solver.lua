@@ -4,7 +4,8 @@ local function make_context()
 	return
 	{
 		points = {},
-		objects = {}
+		objects = {},
+		target = {}
 	}
 end
 
@@ -59,37 +60,76 @@ local function add_if_unique(object, context)
 	return false
 end
 
-local function step(context)
+local function exists(object, context)
+	
+	for _,old in ipairs(context.objects) do
+		if geom.equal(object, old) then
+			return true
+		end
+	end
+	
+	return false
+end
 
-	local new_points = {}
-	local new_objects = {}
+local function check_solved(context)
+	
+	for _,p in ipairs(context.points) do
+		if geom.equal(p, context.target) then
+			return true
+		end
+	end
+	
+	return false
+end
 
+local function rec(context, depth)
+
+	if check_solved(context) then
+		print "Solved"
+		return
+	end
+
+	if depth < 0 then
+		return
+	end
+	
 	-- Make all new possible constructions from existing points
-
+	
+	local objects = {}
+	
 	for i = 1, #context.points do
 		for j = i+1, #context.points do
 
 			local p1,p2 = context.points[i], context.points[j]
 
-			table.insert(new_objects, geom.Line(p1,p2))
-			table.insert(new_objects, geom.Circle(p1,p2))
-			table.insert(new_objects, geom.Circle(p2,p1))
-		end
-	end
-
-	-- Add them to the context, creating all intersections possible
-	
-	for _,new_object in ipairs(new_objects) do
-		
-		local added = add_if_unique(new_object, context)
-		if added then
-			for _,new_point in ipairs(all_intersections(new_object, context)) do
-				add_point_if_unique(new_point, context)
+			objects[1] = geom.Line(p1,p2)
+			objects[2] = geom.Circle(p1,p2)
+			objects[3] = geom.Circle(p2,p1)
+			
+			for _,object in ipairs(objects) do
+				
+				local added = add_if_unique(object, context)
+				if added then
+					
+					local num_points_before = #context.points
+					
+					for _,point in ipairs(all_intersections(object, context)) do
+						add_point_if_unique(point, context)
+					end
+					
+					rec(context, depth-1)
+					
+					-- backtrack
+					for i = num_points_before + 1, #context.points do
+						context.points[i] = nil
+					end
+					
+					context.objects[#context.objects] = nil
+				end
 			end
 		end
-		
 	end
-
+	
 end
 
 local function test()
@@ -100,11 +140,9 @@ local function test()
 	local p2 = geom.Point(1,0)
 
 	c.points = {p1,p2}
+	c.target = geom.Point(0.5, 0.5)
 	
-	for i = 1,10 do
-		step(c)
-		print(#c.points, #c.objects)
-	end
+	rec(c, 3)
 end
 
 test()
