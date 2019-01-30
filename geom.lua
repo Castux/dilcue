@@ -215,7 +215,7 @@ local function test()
 		
 		local l = Line(Point(9,12), Point(12,9))
 
-		local intersections = lc_intersection(l,c)
+		local intersections = {lc_intersection(l,c)}
 		
 		assert(#intersections == 2)
 		table.sort(intersections, function(p1,p2)
@@ -225,12 +225,12 @@ local function test()
 		assert(pp_equal(intersections[2], Point(11,10)))
 		
 		local l = Line(Point(0,9), Point(1,9))
-		local intersections = lc_intersection(l,c)
+		local intersections = {lc_intersection(l,c)}
 		assert(#intersections == 1)
 		assert(pp_equal(intersections[1], Point(10,9)))
 		
 		local l = Line(Point(0,0), Point(1,10))
-		local intersections = lc_intersection(l,c)
+		local intersections = {lc_intersection(l,c)}
 		assert(#intersections == 0)
 	end
 	
@@ -238,12 +238,12 @@ local function test()
 		local c1 = Circle(Point(-2,0), Point(1,0))
 		local c2 = Circle(Point(2,0), Point(1,0))
 		
-		local inter = cc_intersection(c1,c2)
+		local inter = {cc_intersection(c1,c2)}
 		assert(#inter == 1)
 		assert(pp_equal(inter[1], Point(1,0)))
 		
 		local c3 = Circle(Point(-1,0), Point(-0.5,0.5))
-		local inter = cc_intersection(c1,c3)
+		local inter = {cc_intersection(c1,c3)}
 		assert(#inter == 0)
 	end
 	
@@ -252,7 +252,7 @@ local function test()
 		local p2 = Point(10,-1)
 		local c1 = Circle(p1,p2)
 		local c2 = Circle(p2,p1)
-		local inter = cc_intersection(c1,c2)
+		local inter = {cc_intersection(c1,c2)}
 		assert(#inter == 2)
 		table.sort(inter, function(p1,p2)
 				return p1.x < p2.x
