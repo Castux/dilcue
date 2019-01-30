@@ -115,7 +115,7 @@ local function rec(context, depth)
 		return
 	end
 
-	if depth < 0 then
+	if depth < 1 then
 		return
 	end
 	
@@ -202,17 +202,28 @@ local function pretty_print(context)
 	
 end
 
+local function solve(context, max_depth)
+
+	for i = 1,max_depth do
+		
+		rec(context, i)
+		if context.solved then
+			break
+		end
+	end
+end
+
 local function test()
 
 	local c = make_context()
 
-	local p1 = geom.Point(-1,0)
+	local p1 = geom.Point(0,0)
 	local p2 = geom.Point(1,0)
 
 	c.points = {p1,p2}
-	c.targets = {geom.Circle(geom.Point(2,0), geom.Point(3,0))}
+	c.targets = {geom.Point(0,1)}
 	
-	rec(c, 5)
+	solve(c, 5)
 	
 	if c.solved then
 		pretty_print(c)
