@@ -18,12 +18,6 @@ local function pp_equal(p1,p2)
 	return pp_squared_distance(p1,p2) < eps*eps
 end
 
---[[
-local function pp_dot(p1,p2)
-	return p1.x * p2.x + p1.y * p2.y
-end
-]]
-
 local function pppp_cross(a1,b1,a2,b2)
 
 	local ux, uy = b1.x-a1.x, b1.y-a1.y
@@ -276,3 +270,18 @@ local function test()
 end
 
 test()
+
+return
+{
+	Point = Point,
+	Line = Line,
+	Circle = Circle,
+	
+	pp_equal = pp_equal,
+	ll_equal = ll_equal,
+	cc_equal = cc_equal,
+	
+	ll_intersection = ll_intersection,
+	lc_intersection = lc_intersection,
+	cc_intersection = cc_intersection
+}
