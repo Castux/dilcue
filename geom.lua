@@ -1,4 +1,4 @@
-local eps = 1e-5
+local eps = 1e-8
 
 --[[ Point ]]--
 
@@ -92,13 +92,13 @@ local function lc_intersection(l,c)
 
 	local delta = c.sqrad * dr2 - D * D
 
-	if delta < 0 then
-		return {}
-
-	elseif delta == 0 then
+	if math.abs(delta) < eps then
 		local ix = D * dy / dr2
 		local iy = -D * dx / dr2
 		return { Point(ix + c.center.x, iy + c.center.y) }
+
+	elseif delta < 0 then
+		return {}
 
 	else
 		local signdy = dy < 0 and -1 or 1
