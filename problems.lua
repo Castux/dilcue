@@ -120,8 +120,8 @@ table.insert(problems,
 		{
 			points = {p2, p3, p4, p1},
 			objects = {l1, l2, l3, l4},
-			targets = {L(p4,s1), L(p2,s2)},
-			hints = {"circle", "circle", "line", "line", "line"}
+			targets = {L(p4,s1), L(p2,s2), l1, l3},
+			hints = {"circle", "circle", L(s1,s2), "line", "line"}
 		}
 		
 	end
