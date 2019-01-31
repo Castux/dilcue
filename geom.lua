@@ -1,4 +1,4 @@
-local eps = 1e-5
+local eps = 1e-10
 
 --[[ Point ]]--
 
@@ -300,6 +300,18 @@ local function intersection(a,b)
 
 end
 
+local function belongs(p,lc)
+	
+	if p.type == "point" and lc.type == "line" then
+		return pl_point_on_line(p,lc)
+	elseif p.type == "point" and lc.type == "circle" then
+		return pc_point_on_circle(p,lc)
+	else
+		error("Bad types")
+	end
+	
+end
+
 return
 {
 	Point = Point,
@@ -307,5 +319,6 @@ return
 	Circle = Circle,
 	
 	equal = equal,
-	intersection = intersection
+	intersection = intersection,
+	belongs = belongs
 }
