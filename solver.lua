@@ -1,4 +1,5 @@
 local geom = require "geom"
+local draw = require "draw"
 
 local function make_context()
 	return
@@ -39,7 +40,6 @@ local function add_point_if_unique(point, context)
 	for _,old_point in ipairs(context.points) do
 		if geom.equal(point, old_point) then
 			new = false
-			-- TODO: update
 			break
 		end
 	end
@@ -90,6 +90,7 @@ local function check_solved(context)
 				if geom.equal(p, target) then
 					
 					context.targets[i] = p		-- for parent information
+					p.is_target = true
 					num_reached = num_reached + 1
 					break
 				end
@@ -98,6 +99,7 @@ local function check_solved(context)
 		else
 			for _,o in ipairs(context.objects) do
 				if geom.equal(o, target) then
+					o.is_target = true
 					num_reached = num_reached + 1
 					break
 				end
@@ -218,15 +220,20 @@ local function test()
 	local c = make_context()
 
 	local p1 = geom.Point(0,0)
-	local p2 = geom.Point(1,0)
+	local p2 = geom.Point(100,0)
 
 	c.points = {p1,p2}
-	c.targets = {geom.Point(0,1)}
-	
-	solve(c, 5)
+	c.objects = {geom.Line(p1,p2)}
+	c.targets= {geom.Line(p1,geom.Point(100,100))}
+		
+	solve(c, 6)
 	
 	if c.solved then
 		pretty_print(c)
+		
+		local fp = io.open("out.html", "w")
+		fp:write(draw.draw(c))
+		fp:close()
 	end
 end
 
