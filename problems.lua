@@ -378,10 +378,10 @@ table.insert(problems,
 {
 	code = "euclidea2.10",
 	name = "Euclidea 2.10: Сircle in Rhombus",
-	steps = 6,
+	steps = 5,
 	setup = function()
 		
-		local k,l = 150,46.4
+		local k,l = 150,122.2
 		
 		local p1 = P(k,0)
 		local p2 = P(0,-l)
@@ -393,26 +393,19 @@ table.insert(problems,
 		local l3 = L(p3,p4)
 		local l4 = L(p4,p1)
 		
-		local f = function(c)
-			
-			if c.type ~= "circle" then
-				return false
-			end
-			
-			if not geom.equal(c.center, P(0,0)) then
-				return false
-			end
-			
-			local i1,i2 = geom.intersection(c, l1)
-			if i1 and not i2 then
-				return true
-			end
-		end
+		local center = P(0,0)
+		local tmp = P(l,-k)
+		local tmp2 = L(center,tmp)
+		local i1 = geom.intersection(tmp2, l1)
+		local c = C(center,i1)
+		
 		return
 		{
 			points = {p1,p2,p3,p4},
 			objects = {l1,l2,l3,l4},
-			targets = {f}
+			targets = {c},
+			hints = {"line", "line"}
+			
 		}
 	end
 })
