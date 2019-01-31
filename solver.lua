@@ -89,7 +89,9 @@ local function check_solved(context)
 			for _,p in ipairs(context.points) do
 				if geom.equal(p, target) then
 					
-					context.targets[i] = p		-- for parent information
+					target.parent1 = p.parent1
+					target.parent2 = p.parent2
+					
 					p.is_target = true
 					num_reached = num_reached + 1
 					break
@@ -164,47 +166,87 @@ local function rec(context, depth)
 	
 end
 
-
-local function pretty_print(context)
+local function decorate(context)
 	
-	local point_num = 1
-	local function point_name(p)
+	-- Assuming the problem is solved, name the useful points and objects
+	
+	local index = 0
+	local function name_point(p)
 		if not p.name then
-			p.name = "point" .. point_num
-			point_num = point_num + 1
-			
-			local loc = '(' .. p.x .. ',' .. p.y .. ')'
-			
-			if p.parent1 and p.parent2 then
-				print('*' .. p.name, p.parent1.name .. ' x ' .. p.parent2.name .. " " .. loc)
-			else
-				print('*' .. p.name, "given" .. " " .. loc)
-			end
+			p.name = string.char(string.byte('A') + index)
+			index = index + 1
 		end
 		
 		return p.name
 	end
-	
-	for i,o in ipairs(context.objects) do
 		
-		o.name = o.type .. i
-		if o.type == "line" then
-			print(o.name, point_name(o.p1) .. ' -- ' .. point_name(o.p2))
+	for _,obj in ipairs(context.objects) do
+		
+		if obj.type == "line" then
+			obj.name = '(' .. name_point(obj.p1) .. name_point(obj.p2) .. ')'
+		elseif obj.type == "circle" then
+			obj.name = '⊙' .. name_point(obj.center) .. name_point(obj.p)
 		else
-			print(o.name, point_name(o.center) .. ' -> ' .. point_name(o.p))
+			error("Bad type")
 		end
 		
+	end
+
+end
+
+local function pretty_print(context)
+	
+	local res = {}
+	local points_written = {}
+	
+	local function write_point(p)
+		
+		if points_written[p] then
+			return
+		end
+		
+		local pos = string.format("(%.2f,%.2f)", p.x, p.y)
+		
+		if p.given then
+			table.insert(res, "* " .. p.name .. ": given " .. pos)		
+		else
+			table.insert(res, "* " .. p.name .. " = " .. p.parent1.name .. " x " .. p.parent2.name .. " " .. pos)
+		end
+		
+		points_written[p] = true
+	end
+
+	for i,o in ipairs(context.objects) do
+		
+		if o.type == "line" then
+			write_point(o.p1)
+			write_point(o.p2)
+			table.insert(res, "line: " .. o.name)
+		else
+			write_point(o.center)
+			write_point(o.p)
+			table.insert(res, "circle: " .. o.name)
+		end
 	end
 	
 	for _,p in ipairs(context.targets) do
 		if p.type == "point" then
-			point_name(p)
+			write_point(p)
 		end
 	end
 	
+	return table.concat(res, '\n')
 end
 
 local function solve(context, max_depth)
+
+	for _,p in ipairs(context.points) do
+		p.given = true
+	end
+	
+	for _,o in ipairs(context.objects) do
+		o.given = true
+	end
 
 	for i = 1,max_depth do
 		
@@ -213,6 +255,8 @@ local function solve(context, max_depth)
 			break
 		end
 	end
+	
+	decorate(context)
 end
 
 local function test()
@@ -224,12 +268,12 @@ local function test()
 
 	c.points = {p1,p2}
 	c.objects = {geom.Line(p1,p2)}
-	c.targets= {geom.Line(p1,geom.Point(100,100))}
+	c.targets= {geom.Line(p1,geom.Point(100*math.cos(math.rad(60)),100*math.sin(math.rad(60))))}
 		
 	solve(c, 6)
 	
 	if c.solved then
-		pretty_print(c)
+		print(pretty_print(c))
 		
 		local fp = io.open("out.html", "w")
 		fp:write(draw.draw(c))
