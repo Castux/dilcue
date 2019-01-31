@@ -110,14 +110,14 @@ local function check_solved(context)
 	return num_reached == #context.targets
 end
 
-local function rec(context, depth)
+local function rec(context, depth, max_depth)
 
 	if check_solved(context) then
 		context.solved = true
 		return
 	end
 
-	if depth < 1 then
+	if depth > max_depth then
 		return
 	end
 	
@@ -129,10 +129,20 @@ local function rec(context, depth)
 		for j = i+1, #context.points do
 
 			local p1,p2 = context.points[i], context.points[j]
-
-			objects[1] = geom.Line(p1,p2)
-			objects[2] = geom.Circle(p1,p2)
-			objects[3] = geom.Circle(p2,p1)
+			
+			for i = 1,3 do
+				objects[i] = nil
+			end
+			
+			local hint = context.hints and context.hints[depth]
+			if not hint or hint == "line" then
+				table.insert(objects, geom.Line(p1,p2))
+			end
+			
+			if not hint or hint == "circle" then
+				table.insert(objects, geom.Circle(p1,p2))
+				table.insert(objects, geom.Circle(p2,p1))
+			end
 			
 			for _,object in ipairs(objects) do
 				
@@ -145,7 +155,7 @@ local function rec(context, depth)
 						add_point_if_unique(point, context)
 					end
 					
-					rec(context, depth-1)
+					rec(context, depth + 1, max_depth)
 					
 					if context.solved then
 						return
@@ -257,7 +267,7 @@ local function solve(context, steps)
 		o.is_target = true
 	end
 	
-	rec(context, steps)
+	rec(context, 1, steps)
 	if context.solved then
 		decorate(context)
 	end

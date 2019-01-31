@@ -99,7 +99,7 @@ table.insert(problems,
 {
 	code = "euclidea1.5",
 	name = "Euclidea 1.5: Rhombus in Rectangle",
-	steps = 3,
+	steps = 5,
 	setup = function()
 		
 		local k = 81.123
@@ -118,9 +118,10 @@ table.insert(problems,
 		
 		return
 		{
-			points = {p1, p2, p3, p4},
+			points = {p2, p3, p4, p1},
 			objects = {l1, l2, l3, l4},
-			targets = {s1, s2}
+			targets = {L(p4,s1), L(p2,s2)},
+			hints = {"circle", "circle", "line", "line", "line"}
 		}
 		
 	end
@@ -144,7 +145,8 @@ table.insert(problems,
 		{
 			points = {p2,p3},
 			objects = {C(p1,p2)},
-			targets = {p1}
+			targets = {p1},
+			hints = {"circle", "circle", "circle", "line", "line"}
 		}
 		
 	end
@@ -154,7 +156,7 @@ table.insert(problems,
 {
 	code = "euclidea1.7",
 	name = "Euclidea 1.7: Inscribed Square",
-	steps = 7,
+	steps = 4,
 	setup = function()
 		
 		local r = 150
@@ -173,7 +175,8 @@ table.insert(problems,
 		{
 			points = {center, p1},
 			objects = {C(center,p1)},
-			targets = {l1,l2,l3,l4}
+			targets = {l2},
+			hints = {"circle", "circle", "line", "line", "line", "line", "line"}
 		}
 		
 	end
