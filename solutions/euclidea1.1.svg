@@ -1,0 +1,10 @@
+<svg width="600" height="450" viewbox="-400.00 -300.00 800.00 600.00">
+
+<line x1="2000.00" y1="-0.00" x2="-2000.00" y2="-0.00" style="stroke:grey;stroke-width:2" />
+<circle cx="0.00" cy="-0.00" r="100.00" stroke="grey" stroke-width="2" fill="none" />
+<circle cx="100.00" cy="-0.00" r="100.00" stroke="grey" stroke-width="2" fill="none" />
+<line x1="1000.00" y1="-1732.05" x2="-1000.00" y2="1732.05" style="stroke:gold;stroke-width:2" />
+<circle cx="0.00" cy="-0.00" r="4" stroke="none" fill="blue" /><text x="10.00" y="20.00" style="font-family:sans-serif;font-weight:bold;fill:#494949">A</text>
+<circle cx="100.00" cy="-0.00" r="4" stroke="none" fill="blue" /><text x="110.00" y="20.00" style="font-family:sans-serif;font-weight:bold;fill:#494949">B</text>
+<circle cx="50.00" cy="-86.60" r="4" stroke="none" fill="grey" /><text x="60.00" y="-66.60" style="font-family:sans-serif;font-weight:bold;fill:#494949">C</text>
+</svg>

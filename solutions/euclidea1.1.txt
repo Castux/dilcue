@@ -1,0 +1,7 @@
+* A: given (0.00,0.00)
+* B: given (100.00,0.00)
+line: (AB)
+circle: ⊙AB
+circle: ⊙BA
+* C = ⊙AB x ⊙BA (50.00,86.60)
+line: (AC)
