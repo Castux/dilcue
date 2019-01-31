@@ -88,11 +88,9 @@ local function check_solved(context)
 		if target.type == "point" then
 			for _,p in ipairs(context.points) do
 				if geom.equal(p, target) then
-					
+					p.is_target = true
 					target.parent1 = p.parent1
 					target.parent2 = p.parent2
-					
-					p.is_target = true
 					num_reached = num_reached + 1
 					break
 				end
@@ -191,6 +189,12 @@ local function decorate(context)
 		end
 		
 	end
+	
+	for _,p in ipairs(context.points) do
+		if p.is_target then
+			name_point(p)
+		end
+	end
 
 end
 
@@ -229,8 +233,8 @@ local function pretty_print(context)
 		end
 	end
 	
-	for _,p in ipairs(context.targets) do
-		if p.type == "point" then
+	for _,p in ipairs(context.points) do
+		if p.is_target then
 			write_point(p)
 		end
 	end
@@ -247,6 +251,10 @@ local function solve(context, max_depth)
 	for _,o in ipairs(context.objects) do
 		o.given = true
 	end
+	
+	for _,o in ipairs(context.targets) do
+		o.is_target = true
+	end
 
 	for i = 1,max_depth do
 		
@@ -259,26 +267,8 @@ local function solve(context, max_depth)
 	decorate(context)
 end
 
-local function test()
-
-	local c = make_context()
-
-	local p1 = geom.Point(0,0)
-	local p2 = geom.Point(100,0)
-
-	c.points = {p1,p2}
-	c.objects = {geom.Line(p1,p2)}
-	c.targets= {geom.Line(p1,geom.Point(100*math.cos(math.rad(60)),100*math.sin(math.rad(60))))}
-		
-	solve(c, 6)
-	
-	if c.solved then
-		print(pretty_print(c))
-		
-		local fp = io.open("out.html", "w")
-		fp:write(draw.draw(c))
-		fp:close()
-	end
-end
-
-test()
+return
+{
+	solve = solve,
+	pretty_print = pretty_print
+}

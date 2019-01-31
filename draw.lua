@@ -2,6 +2,7 @@ local svg_inline_header = '<svg width="%d" height="%d" viewbox="%.2f %.2f %.2f %
 local svg_line = '<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" style="stroke:%s;stroke-width:2" />'
 local svg_circle = '<circle cx="%.2f" cy="%.2f" r="%.2f" stroke="%s" stroke-width="2" fill="none" />'
 local svg_point = '<circle cx="%.2f" cy="%.2f" r="4" stroke="none" fill="%s" />'
+local svg_text = '<text x="%.2f" y="%.2f" style="font-family:sans-serif;font-weight:bold;fill:#494949">%s</text>'
 
 local given_color = "blue"
 local normal_color = "grey"
@@ -17,13 +18,13 @@ local function draw_point(p)
 	else
 		color = given_color
 	end
-	
-	return string.format(svg_point, p.x, -p.y, color)
+
+	return string.format(svg_point, p.x, -p.y, color) .. string.format(svg_text, p.x + 10, -p.y + 20, p.name)
 end
 
 local function draw_line(l)
 	
-	local K = 10
+	local K = 20
 	local vx = l.p2.x - l.p1.x
 	local vy = l.p2.y - l.p1.y
 	
@@ -50,27 +51,23 @@ local function draw(context)
 	
 	local res = {}
 	
-	res[1] = string.format(svg_inline_header, 800, 600, -400, -300, 800, 600)
+	res[1] = string.format(svg_inline_header, 600, 450, -400, -300, 800, 600)
 	
 	for _,obj in ipairs(context.objects) do
 		
 		if obj.type == "line" then
 			table.insert(res, draw_line(obj))
-			table.insert(res, draw_point(obj.p1))
-			table.insert(res, draw_point(obj.p2))
 			
 		elseif obj.type == "circle" then
 			table.insert(res, draw_circle(obj))
-			table.insert(res, draw_point(obj.center))
-			table.insert(res, draw_point(obj.p))
 		else
 			error("Wrong type")
 		end
 	end
 	
-	for _,t in ipairs(context.targets) do
-		if t.type == "point" then
-			table.insert(res, draw_point(t))
+	for _,p in ipairs(context.points) do
+		if p.name then
+			table.insert(res, draw_point(p))
 		end
 	end
 	
