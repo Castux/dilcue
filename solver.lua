@@ -221,15 +221,16 @@ local function pretty_print(context)
 	end
 
 	for i,o in ipairs(context.objects) do
-		
-		if o.type == "line" then
-			write_point(o.p1)
-			write_point(o.p2)
-			table.insert(res, "line: " .. o.name)
-		else
-			write_point(o.center)
-			write_point(o.p)
-			table.insert(res, "circle: " .. o.name)
+		if not o.given then
+			if o.type == "line" then
+				write_point(o.p1)
+				write_point(o.p2)
+				table.insert(res, "line: " .. o.name)
+			else
+				write_point(o.center)
+				write_point(o.p)
+				table.insert(res, "circle: " .. o.name)
+			end
 		end
 	end
 	
@@ -255,9 +256,8 @@ local function solve(context, steps)
 	for _,o in ipairs(context.targets) do
 		o.is_target = true
 	end
-
-	rec(context, steps)
 	
+	rec(context, steps)
 	if context.solved then
 		decorate(context)
 	end
