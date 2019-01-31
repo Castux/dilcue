@@ -1,4 +1,4 @@
-local eps = 1e-10
+local eps = 1e-6
 
 --[[ Point ]]--
 

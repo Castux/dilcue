@@ -410,4 +410,26 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea3.1",
+	name = "Euclidea 3.1: Chord Midpoint",
+	steps = 4,
+	setup = function()
+
+		local l = 54.113		
+		local p1 = P(0,0)
+		local p2 = P(0,l)
+		local p3 = P(111,126.9)
+		local p4 = P(10,l)
+		
+		return
+		{
+			points = {p1,p2,p3},
+			objects = {C(p1,p3)},
+			targets = {L(p2,p4)}
+		}
+	end
+})
+
 return problems
