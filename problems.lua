@@ -182,4 +182,29 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea2.1",
+	name = "Euclidea 2.1: Angle Bissector",
+	steps = 4,
+	setup = function()
+		
+		local alpha = 47.12
+		
+		local r = 150
+		local p1 = P(0,0)
+		local p2 = P(r,0)
+		local p3 = P(r * math.cos(math.rad(alpha)), r * math.sin(math.rad(alpha)))
+		local p4 = P(r * math.cos(math.rad(alpha/2)), r * math.sin(math.rad(alpha/2)))
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {L(p1,p2), L(p1,p3)},
+			targets = {L(p1,p4)}
+		}
+		
+	end
+})
+
 return problems
