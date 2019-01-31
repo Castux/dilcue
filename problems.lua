@@ -207,4 +207,214 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea2.3",
+	name = "Euclidea 2.3: Angle of 30°",
+	steps = 3,
+	setup = function()
+		
+		local alpha = 30
+		
+		local r = 150
+		local p1 = P(-r,0)
+		local p2 = P(0,0)
+		local p3 = P(r * math.cos(math.rad(alpha)) - r, r * math.sin(math.rad(alpha)))
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {L(p1,p2)},
+			targets = {L(p1,p3)}
+		}
+		
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea2.4",
+	name = "Euclidea 2.4: Double Angle",
+	steps = 3,
+	setup = function()
+		
+		local alpha = 27.45
+		
+		local r = 150
+		local p1 = P(-r,0)
+		local p2 = P(0,0)
+		local p3 = P(r * math.cos(math.rad(alpha)) - r, r * math.sin(math.rad(alpha)))
+		local p4 = P(r * math.cos(math.rad(2*alpha)) - r, r * math.sin(math.rad(2*alpha)))
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {L(p1,p2), L(p1,p3)},
+			targets = {L(p1,p4)}
+		}
+		
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea2.5",
+	name = "Euclidea 2.5: Cut Rectangle",
+	steps = 3,
+	setup = function()
+		
+		local k = 81.123
+		local l = 33.987
+	
+		local p1 = P(-k,l)
+		local p2 = P(k,l)
+		local p3 = P(k,-l)
+		local p4 = P(-k,-l)
+		
+		local p5 = P(152.1, 146.78)
+		
+		local l1,l2,l3,l4 = L(p1,p2), L(p2,p3), L(p3,p4), L(p4,p1)
+		
+		return
+		{
+			points = {p5, p2, p3, p4, p1},
+			objects = {l1, l2, l3, l4},
+			targets = {L(P(0,0), p5)},
+			hints = {"line", "line", "line"}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea2.6",
+	name = "Euclidea 2.6: Drop a Perpendicular",
+	steps = 3,
+	setup = function()
+		
+		local p1 = P(-100,0)
+		local p2 = P(-275.1,0)
+		local p3 = P(0,79)
+		local p4 = P(0,0)
+				
+		return
+		{
+			points = {p1,p2,p3},
+			objects = {L(p1,p2)},
+			targets = {L(p3,p4)}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea2.7",
+	name = "Euclidea 2.7: Erect a Perpendicular",
+	steps = 3,
+	setup = function()
+		
+		local p1 = P(-100,0)
+		local p2 = P(0,0)
+		local p3 = P(0,10)
+		local p4 = P(78,84)
+		
+		return
+		{
+			points = {p1,p2,p4},
+			objects = {L(p1,p2)},
+			targets = {L(p2,p3)}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea2.8",
+	name = "Euclidea 2.8: Tangent to Circle at Point",
+	steps = 3,
+	setup = function()
+		local r = 150
+		local alpha = math.rad(56)
+		local beta = math.rad(15.4)
+		
+		local p1 = P(0,0)
+		local p2 = P(r * math.cos(alpha), r * math.sin(alpha))
+		local p3 = P(p2.x - p2.y, p2.y + p2.x)
+		local p4 = P(r * math.cos(beta), r * math.sin(beta))
+		
+		return
+		{
+			points = {p1,p2,p4},
+			objects = {C(p1,p2)},
+			targets = {L(p2,p3)}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea2.9",
+	name = "Euclidea 2.9: Circle Tangent to Line",
+	steps = 4,
+	setup = function()
+		
+		local r = 125
+		
+		local p1 = P(0,0)
+		local p2 = P(0,r)
+		local p3 = P(112,0)
+		
+		return
+		{
+			points = {p2,p3},
+			objects = {L(p3,p1)},
+			targets = {C(p2,p1)}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea2.10",
+	name = "Euclidea 2.10: Сircle in Rhombus",
+	steps = 6,
+	setup = function()
+		
+		local k,l = 150,46.4
+		
+		local p1 = P(k,0)
+		local p2 = P(0,-l)
+		local p3 = P(-k,0)
+		local p4 = P(0,l)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p2,p3)
+		local l3 = L(p3,p4)
+		local l4 = L(p4,p1)
+		
+		local f = function(c)
+			
+			if c.type ~= "circle" then
+				return false
+			end
+			
+			if not geom.equal(c.center, P(0,0)) then
+				return false
+			end
+			
+			local i1,i2 = geom.intersection(c, l1)
+			if i1 and not i2 then
+				return true
+			end
+		end
+		return
+		{
+			points = {p1,p2,p3,p4},
+			objects = {l1,l2,l3,l4},
+			targets = {f}
+		}
+	end
+})
+
 return problems
