@@ -49,7 +49,7 @@ local function treat_problem(p)
 	-- Solve!
 	
 	local context = p.setup()
-	solver.solve(context, 6)
+	solver.solve(context, p.steps)
 	
 	if context.solved then
 		

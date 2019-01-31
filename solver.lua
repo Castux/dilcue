@@ -242,7 +242,7 @@ local function pretty_print(context)
 	return table.concat(res, '\n')
 end
 
-local function solve(context, max_depth)
+local function solve(context, steps)
 
 	for _,p in ipairs(context.points) do
 		p.given = true
@@ -256,15 +256,11 @@ local function solve(context, max_depth)
 		o.is_target = true
 	end
 
-	for i = 1,max_depth do
-		
-		rec(context, i)
-		if context.solved then
-			break
-		end
-	end
+	rec(context, steps)
 	
-	decorate(context)
+	if context.solved then
+		decorate(context)
+	end
 end
 
 return
