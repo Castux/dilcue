@@ -134,14 +134,38 @@ local function rec(context, depth, max_depth)
 				objects[i] = nil
 			end
 			
-			local hint = context.hints and context.hints[depth]
-			if not hint or hint == "line" then
-				table.insert(objects, geom.Line(p1,p2))
-			end
+			local line =geom.Line(p1,p2)
+			local c1,c2 = geom.Circle(p1,p2), geom.Circle(p2,p1)
 			
-			if not hint or hint == "circle" then
-				table.insert(objects, geom.Circle(p1,p2))
-				table.insert(objects, geom.Circle(p2,p1))
+			local hint = context.hints and context.hints[depth]
+			
+			if not hint then
+				-- No hint, try everything
+				table.insert(objects, line)
+				table.insert(objects, c1)
+				table.insert(objects, c2)
+			
+			elseif type(hint) == "string" then
+			
+				-- Construction type hint
+				if hint == "line" then
+					table.insert(objects, line)
+				elseif hint == "circle" then
+					table.insert(objects, c1)
+					table.insert(objects, c2)
+				else
+					error("Bad hint")
+				end
+				
+			else
+				-- Hint is the actual solution!
+				if geom.equal(hint, line) then
+					table.insert(objects, line)
+				elseif geom.equal(hint, c1) then
+					table.insert(objects, c1)
+				elseif geom.equal(hint, c2) then
+					table.insert(object, c2)
+				end				
 			end
 			
 			for _,object in ipairs(objects) do

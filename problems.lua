@@ -156,7 +156,7 @@ table.insert(problems,
 {
 	code = "euclidea1.7",
 	name = "Euclidea 1.7: Inscribed Square",
-	steps = 4,
+	steps = 7,
 	setup = function()
 		
 		local r = 150
@@ -175,8 +175,8 @@ table.insert(problems,
 		{
 			points = {center, p1},
 			objects = {C(center,p1)},
-			targets = {l2},
-			hints = {"circle", "circle", "line", "line", "line", "line", "line"}
+			targets = {l1,l2,l3,l4},
+			hints = {"circle", "circle", "line", l2, "line", "line", "line"}
 		}
 		
 	end
