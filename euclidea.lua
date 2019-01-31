@@ -13,7 +13,7 @@ local html_header = [[
 ]]
 
 local html_title = [[
-<h1>Size %d</h1>
+<h1>%s</h1>
 ]]
 
 local html_footer = [[
@@ -32,10 +32,18 @@ local function treat_problem(p)
 
 	-- Check existing
 	local fp = io.open(svg_path, "r")
-	if fp then
+	local fp2 = io.open(txt_path, "r")
+	if fp and fp2 then
+		
 		print('', "Already solved")
+		
+		local svg = fp:read("*a")
 		fp:close()
-		return
+		
+		local txt = fp2:read("*a")
+		fp2:close()
+		
+		return svg, txt
 	end
 
 	-- Solve!
@@ -45,24 +53,46 @@ local function treat_problem(p)
 	
 	if context.solved then
 		
+		local svg = draw.draw(context)
+		local txt = solver.pretty_print(context)
+		
 		local fp = io.open(svg_path, "w")
-		fp:write(draw.draw(context))
+		fp:write(svg)
 		fp:close()
 		
 		local fp = io.open(txt_path, "w")
-		fp:write(solver.pretty_print(context))
+		fp:write(txt)
 		fp:close()
 		
 		print('', "Solved")
+		return svg, txt
 	else
 		print('', "No solution")
 	end	
 end
 
 local function run()
+	
+	local res = {}
+	table.insert(res, string.format(html_header, "Euclidea Solutions"))
+	
 	for _,p in ipairs(problems) do
-		treat_problem(p)
+		local svg, txt = treat_problem(p)
+		
+		if svg and txt then
+			table.insert(res, string.format(html_title, p.name))
+			table.insert(res, svg)
+			
+			local corrected_text = "<p>" .. txt:gsub("\n", "<br />") .. "</p>"
+			table.insert(res, corrected_text)
+		end
 	end
+	
+	table.insert(res, html_footer)
+	
+	local fp = io.open(output_dir .. "/solutions.html", "w")
+	fp:write(table.concat(res, '\n'))
+	fp:close()
 end
 
 run()
