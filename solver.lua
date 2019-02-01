@@ -85,31 +85,10 @@ local function check_solved(context)
 	local num_reached = 0
 	for i,target in ipairs(context.targets) do
 		
-		if type(target) == "function" then
-			
-			for _,obj in ipairs(context.objects) do
-				if target(obj) then
-					obj.is_target = true
-					num_reached = num_reached + 1
-					break
-				end
-			end
-			
-			for _,p in ipairs(context.points) do
-				if target(p) then
-					p.is_target = true
-					num_reached = num_reached + 1
-					break
-				end
-			end
-			
-	
-		elseif target.type == "point" then
+		if target.type == "point" then
 			for _,p in ipairs(context.points) do
 				if geom.equal(p, target) then
 					p.is_target = true
-					target.parent1 = p.parent1
-					target.parent2 = p.parent2
 					num_reached = num_reached + 1
 					break
 				end
@@ -305,9 +284,7 @@ local function solve(context, steps)
 	end
 	
 	for _,o in ipairs(context.targets) do
-		if type(o) ~= "function" then
-			o.is_target = true
-		end
+		o.is_target = true
 	end
 	
 	rec(context, 1, steps)
