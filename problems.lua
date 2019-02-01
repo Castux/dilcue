@@ -439,8 +439,7 @@ table.insert(problems,
 			points = {p1,p2,p3,p4},
 			objects = {l1,l2,l3,l4},
 			targets = {c},
-			hints = {"line", "line"}
-			
+			hints = {"line", "line", "circle", "line", "circle"}
 		}
 	end
 })
@@ -569,8 +568,6 @@ table.insert(problems,
 		}
 	end
 })
-
-do return problems end
 
 table.insert(problems,
 {
