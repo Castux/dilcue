@@ -750,10 +750,35 @@ table.insert(problems,
 			points = {p2,p3},
 			objects = {l1},
 			targets = {L(p1,p3)},
---			hints = { "circle", "circle", "circle" }	-- as per the instructions
 		}
 	end
 })
+
+table.insert(problems,
+{
+	code = "euclidea4.3",
+	name = "Euclidea 4.3: Circumscribed Equilateral Triangle",
+	steps = 6,
+	setup = function()
+		
+		local r = 100
+		local p1 = P(0,0)
+		local p2 = P(r,0)
+		
+		local t1 = P(-2*r, 0)
+		local t2 = P(r, 2*r * math.sin(math.rad(60)))
+		local t3 = P(t2.x, -t2.y)
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {C(p1,p2)},
+			targets = { L(t1,t2), L(t2,t3), L(t3,t1)},
+			hints = { "line", "circle", C(p1, t1) }
+		}
+	end
+})
+
 
 
 
