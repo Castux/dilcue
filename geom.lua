@@ -40,9 +40,9 @@ end
 
 local function pl_point_on_line(p,l)
 
-	local det = pppp_cross(p, l.p1, p, l.p2)
+	local dot = (p.x - l.p1.x) * l.nx + (p.y - l.p1.y) * l.ny
 
-	return math.abs(det) < eps
+	return math.abs(dot) < eps
 end
 
 local function ll_equal(l1,l2)
