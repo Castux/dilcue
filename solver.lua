@@ -75,24 +75,24 @@ local function check_solved(context)
 	return num_reached == #context.targets
 end
 
-local function matches_hint(object, hint)
+local function matches_restriction(object, restriction)
 	
-	if type(hint) == "table" then
-		return geom.equal(object, hint)
+	if type(restriction) == "table" then
+		return geom.equal(object, restriction)
 	
-	elseif type(hint) == "string" then
-		return object.type == hint
+	elseif type(restriction) == "string" then
+		return object.type == restriction
 	
-	elseif hint == nil then
+	elseif restriction == nil then
 		return true
 		
 	else
-		error("Bad hint")
+		error("Bad restriction")
 	end
 	
 end
 
-local function candidates(context, hint)
+local function candidates(context, restriction)
 	
 	local tmp = {}
 	
@@ -109,10 +109,10 @@ local function candidates(context, hint)
 	
 	local res = {}
 	
-	-- Filter existing objects and according to hints
+	-- Filter existing objects and according to restrictions
 	
 	for _,o in ipairs(tmp) do
-		if matches_hint(o, hint) and not exists(o, context) then
+		if matches_restriction(o, restriction) and not exists(o, context) then
 			table.insert(res, o)
 		end
 	end
@@ -149,7 +149,7 @@ local function rec(context, depth, max_depth)
 	
 	-- Make all (uniquely) new possible constructions from existing points
 	
-	local objects = candidates(context, context.hints and context.hints[depth])
+	local objects = candidates(context, context.restrictions and context.restrictions[depth])
 	sort_candidates(objects, context)
 	
 	for _,object in ipairs(objects) do

@@ -121,7 +121,7 @@ table.insert(problems,
 			points = {p2, p3, p4, p1},
 			objects = {l1, l2, l3, l4},
 			targets = {L(p4,s1), L(p2,s2)},
-			hints = {"circle", "circle", L(s1,s2) }
+			restrictions = {"circle", "circle", L(s1,s2) }
 		}
 		
 	end
@@ -146,7 +146,7 @@ table.insert(problems,
 			points = {p2,p3},
 			objects = {C(p1,p2)},
 			targets = {p1},
-			hints = {"circle", "circle", "circle", "line", "line"}
+			restrictions = {"circle", "circle", "circle", "line", "line"}
 		}
 		
 	end
@@ -176,7 +176,7 @@ table.insert(problems,
 			points = {center, p1},
 			objects = {C(center,p1)},
 			targets = {l1,l2,l3,l4},
-			hints = {nil, nil, nil, l2}
+			restrictions = {nil, nil, nil, l2}
 		}
 		
 	end
@@ -235,7 +235,7 @@ table.insert(problems,
 			points = {p1,p2,p3},
 			objects = {l1,l2,l3},
 			targets = {c},
-			hints = {nil, nil, nil, L(p1,c)}			
+			restrictions = {nil, nil, nil, L(p1,c)}			
 		}
 		
 	end
@@ -315,7 +315,7 @@ table.insert(problems,
 			points = {p5, p2, p3, p4, p1},
 			objects = {l1, l2, l3, l4},
 			targets = {L(P(0,0), p5)},
-			hints = {"line", "line", "line"}
+			restrictions = {"line", "line", "line"}
 		}
 	end
 })
@@ -438,7 +438,7 @@ table.insert(problems,
 			points = {p1,p2,p3,p4},
 			objects = {l1,l2,l3,l4},
 			targets = {c},
-			hints = {"line", "line", "circle", "line", "circle"}
+			restrictions = {"line", "line", "circle", "line", "circle"}
 		}
 	end
 })
@@ -494,7 +494,7 @@ table.insert(problems,
 			points = {p1,p2,p3,c},
 			objects = {l1,l2},
 			targets = {L(i1,i2)},
-			hints = {"circle", "circle", h1, "circle", h2}
+			restrictions = {"circle", "circle", h1, "circle", h2}
 		}
 	end
 })
@@ -563,7 +563,7 @@ table.insert(problems,
 			points = {p1,p2,p3,c},
 			objects = {l1,l2},
 			targets = {res1,res2},
-			hints = {"circle", "circle", "line", res1, "circle", "line"}
+			restrictions = {"circle", "circle", "line", res1, "circle", "line"}
 		}
 	end
 })
@@ -589,7 +589,7 @@ table.insert(problems,
 			points = {p2,p3},
 			objects = {l1},
 			targets = {C(p1,p2)},
-			hints = {"circle","circle", "line", "line", "line", "circle"}
+			restrictions = {"circle","circle", "line", "line", "line", "circle"}
 		}
 	end
 })
@@ -637,7 +637,7 @@ table.insert(problems,
 			points = {p1,p2},
 			objects = {L(p1,p2)},
 			targets = {L(p1,p3)},
-			hints = {"circle", "circle", "line"}	-- force a solution that doesn't use the initial half line
+			restrictions = {"circle", "circle", "line"}	-- force a solution that doesn't use the initial half line
 		}
 	end
 })
@@ -661,14 +661,14 @@ table.insert(problems,
 		local l1,l2,l3,l4 = L(p1,p2), L(p1,p3), L(p3,p4), L(p2,p4)
 		
 		local midpoint = P(d/2, 0)
-		local hintcircle = C(midpoint, p1)
+		local restrictioncircle = C(midpoint, p1)
 		
 		return
 		{
 			points = {p1,p2},
 			objects = {l1},
 			targets = {l2,l3,l4},
-			hints = {nil, nil, nil, hintcircle}
+			restrictions = {nil, nil, nil, restrictioncircle}
 		}
 	end
 })
@@ -702,7 +702,7 @@ table.insert(problems,
 			objects = {l1,l2,l3,l4},
 			targets = {P(cx,cy)},
 			-- This one has just too many points. We "help" all the way :(
-			hints = { C(p1,p2), C(p2,p1), geom.bisector(p1,p2), C(p3,p4), C(p4,p3), geom.bisector(p3,p4), L(m1,m2), C(m1,m2), C(m2,m1)}
+			restrictions = { C(p1,p2), C(p2,p1), geom.bisector(p1,p2), C(p3,p4), C(p4,p3), geom.bisector(p3,p4), L(m1,m2), C(m1,m2), C(m2,m1)}
 		}
 	end
 })
@@ -723,7 +723,7 @@ table.insert(problems,
 			points = {p1,p2},
 			objects = {},
 			targets = {p3},
-			hints = { "circle", "circle", "circle" }	-- as per the instructions
+			restrictions = { "circle", "circle", "circle" }	-- as per the instructions
 		}
 	end
 })
@@ -771,7 +771,7 @@ table.insert(problems,
 			points = {p1,p2},
 			objects = {C(p1,p2)},
 			targets = { L(t1,t2), L(t2,t3), L(t3,t1)},
-			hints = { "line", "circle", "circle", "line", "line", "line" }
+			restrictions = { "line", "circle", "circle", "line", "line", "line" }
 		}
 	end
 })
