@@ -136,34 +136,6 @@ local function sort_candidates(candidates, context)
 		end
 	end
 	
-	if num_targets_found > 0 then
-		return
-	end
-	
-	-- Check which candidates generates points that are either targets, or on the targets
-	
-	for _,obj in ipairs(candidates) do
-		
-		obj.score = 0
-		obj.points = all_intersections(obj, context)
-		
-		for _,p in ipairs(obj.points) do
-			
-			for _,target in ipairs(context.targets) do
-				if geom.equal(p, target) then
-					obj.score = obj.score + 1000
-				elseif target.type ~= "point" and geom.belongs(p, target) then
-					obj.score = obj.score + 1
-				elseif target.type == "circle" and geom.equal(p, target.center) then
-					obj.score = obj.score + 10
-				end
-			end
-		end
-		
-	end
-	
-	table.sort(candidates, function(a,b) return a.score > b.score end)
-	
 end
 
 local function rec(context, depth, max_depth)
@@ -186,10 +158,10 @@ local function rec(context, depth, max_depth)
 		
 		local num_points_before = #context.points
 		
-		local points = object.points or all_intersections(object, context)
+		local points = all_intersections(object, context)
 		
 		for _,point in ipairs(points) do
-			table.insert(context.points, point)
+			table.insert(context.points, point)		-- all points are new, insert directly
 		end
 		
 		-- We already insured this object is new, insert directly
