@@ -565,11 +565,12 @@ table.insert(problems,
 			points = {p1,p2,p3,c},
 			objects = {l1,l2},
 			targets = {res1,res2},
-			hints = {"circle", "circle", "line", res1}
+			hints = {"circle", "circle", "line", res1, "circle", "line"}
 		}
 	end
 })
 
+do return problems end
 
 table.insert(problems,
 {
@@ -592,10 +593,11 @@ table.insert(problems,
 			points = {p2,p3},
 			objects = {l1},
 			targets = {C(p1,p2)},
-			hints = {"circle","circle", geom.bisector(p2,p3), "line", L(p1,p2)}
+			hints = {"circle","circle", "line", "line", "line", "circle"}
 		}
 	end
 })
+
 
 table.insert(problems,
 {
@@ -639,7 +641,7 @@ table.insert(problems,
 			points = {p1,p2},
 			objects = {L(p1,p2)},
 			targets = {L(p1,p3)},
-			hints = {"circle", "circle","line"}	-- force a solution that doesn't use the initial half line
+			hints = {"circle", "circle", "line"}	-- force a solution that doesn't use the initial half line
 		}
 	end
 })
@@ -670,7 +672,7 @@ table.insert(problems,
 			points = {p1,p2},
 			objects = {l1},
 			targets = {l2,l3,l4},
-			hints = {"circle", "circle", "line", hintcircle}
+			hints = {nil, nil, nil, hintcircle}
 		}
 	end
 })
@@ -773,7 +775,7 @@ table.insert(problems,
 			points = {p1,p2},
 			objects = {C(p1,p2)},
 			targets = { L(t1,t2), L(t2,t3), L(t3,t1)},
-			hints = { "line", "circle", C(p1, t1) }
+			hints = { "line", "circle", "circle", "line", "line", "line" }
 		}
 	end
 })
