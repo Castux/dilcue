@@ -49,24 +49,6 @@ local function add_point_if_unique(point, context)
 	end
 end
 
-local function add_if_unique(object, context)
-
-	local new = true
-	for _,old in ipairs(context.objects) do
-		if geom.equal(object, old) then
-			new = false
-			break
-		end
-	end
-
-	if new then
-		table.insert(context.objects, object)
-		return true
-	end 
-
-	return false
-end
-
 local function exists(object, context)
 	
 	for _,old in ipairs(context.objects) do
