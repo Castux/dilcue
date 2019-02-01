@@ -33,6 +33,15 @@ local function Line(p1,p2)
 	return { type = "line", p1 = p1, p2 = p2 }
 end
 
+local function l_unit_normal(l)
+	
+	local vx,vy = l.p2.x - l.p1.x, l.p2.y - l.p1.y
+	local d = math.sqrt(vx*vx + vy*vy)
+	vx,vy = vx/d, vy/d
+	
+	return vx,vy, -vy,vx
+end
+
 local function pl_point_on_line(p,l)
 
 	local det = pppp_cross(p, l.p1, p, l.p2)
@@ -312,6 +321,18 @@ local function belongs(p,lc)
 	
 end
 
+local function project(p,l)
+
+	assert(p.type == "point" and l.type == "line")
+	
+	local vx,vy,nx,ny = l_unit_normal(l)
+	
+	local dx,dy = p.x - l.p1.x, p.y - l.p1.y
+	local normal_offset = dx * nx + dy * ny
+	
+	return Point(p.x - normal_offset * nx, p.y - normal_offset * ny)	
+end
+
 return
 {
 	Point = Point,
@@ -320,5 +341,7 @@ return
 	
 	equal = equal,
 	intersection = intersection,
-	belongs = belongs
+	belongs = belongs,
+	distance = pp_distance,
+	project = project
 }

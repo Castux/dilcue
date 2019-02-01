@@ -209,6 +209,41 @@ table.insert(problems,
 
 table.insert(problems,
 {
+	code = "euclidea2.2",
+	name = "Euclidea 2.2: Intersection of Angle Bisectors",
+	steps = 6,
+	setup = function()
+		
+		local p1 = P(-120,-25.4)
+		local p2 = P(-5.54, 123)
+		local p3 = P(211, -34.8)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p2,p3)
+		local l3 = L(p1,p3)
+		
+		local d1 = geom.distance(p2,p3)
+		local d2 = geom.distance(p1,p3)
+		local d3 = geom.distance(p1,p2)
+		
+		local x = (d1 * p1.x + d2 * p2.x + d3 * p3.x) / (d1 + d2 + d3)
+		local y = (d1 * p1.y + d2 * p2.y + d3 * p3.y) / (d1 + d2 + d3)
+		local c = P(x,y)
+		
+		return
+		{
+			points = {p1,p2,p3},
+			objects = {l1,l2,l3},
+			targets = {c},
+			hints = {"circle", "circle", "circle", L(p1,c)}
+		}
+		
+	end
+})
+
+
+table.insert(problems,
+{
 	code = "euclidea2.3",
 	name = "Euclidea 2.3: Angle of 30°",
 	steps = 3,
@@ -431,5 +466,40 @@ table.insert(problems,
 		}
 	end
 })
+
+table.insert(problems,
+{
+	code = "euclidea3.2",
+	name = "Euclidea 3.2: Triangle by Angle and Orthocenter",
+	steps = 6,
+	setup = function()
+		
+		local p1 = P(0,0)
+		local p2 = P(145,0)
+		local p3 = P(109.7,176.3)
+		local c = P(87,56)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p1,p3)
+		
+		local t1 = geom.project(c,l1)
+		local t2 = geom.project(c,l2)
+		
+		local h1 = L(c,t1)
+		local h2 = L(c,t2)
+		
+		local i1 = geom.intersection(h1,l2)
+		local i2 = geom.intersection(h2,l1)
+		
+		return
+		{
+			points = {p1,p2,p3,c},
+			objects = {l1,l2},
+			targets = {L(i1,i2)},
+			hints = {"circle", "circle", h1, "circle", h2}
+		}
+	end
+})
+
 
 return problems
