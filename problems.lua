@@ -474,7 +474,7 @@ table.insert(problems,
 	steps = 6,
 	setup = function()
 		
-		local p1 = P(0,0)
+		local p1 = P(-120.23,10)
 		local p2 = P(145,0)
 		local p3 = P(109.7,176.3)
 		local c = P(87,56)
@@ -497,6 +497,39 @@ table.insert(problems,
 			objects = {l1,l2},
 			targets = {L(i1,i2)},
 			hints = {"circle", "circle", h1, "circle", h2}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea3.3",
+	name = "Euclidea 3.3: Intersection of Perpendicular Bisectors",
+	steps = 2,
+	setup = function()
+		
+		local p1 = P(-100,-12.3)
+		local p2 = P(175,0)
+		local p3 = P(101.7,176.3)
+		local c = P(87,56)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p1,p3)
+		
+		-- Solution is in the construction :)
+		
+		local circle = C(c,p1)
+		local i1,i2 = geom.intersection(circle,l1)
+		local t1 = geom.equal(i1,p1) and i2 or i1
+		
+		local i1,i2 = geom.intersection(circle,l2)
+		local t2 = geom.equal(i1,p1) and i2 or i1	
+		
+		return
+		{
+			points = {p1,p2,p3,c},
+			objects = {l1,l2},
+			targets = {L(t1,t2)}
 		}
 	end
 })
