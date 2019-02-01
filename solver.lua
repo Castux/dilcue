@@ -131,12 +131,10 @@ end
 
 local function rec(context, depth, max_depth)
 
-	if check_solved(context) then
-		context.solved = true
-		return
-	end
-
 	if depth > max_depth then
+		if check_solved(context) then
+			context.solved = true			
+		end
 		return
 	end
 	
