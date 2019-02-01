@@ -534,5 +534,93 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea3.4",
+	name = "Euclidea 3.4: Three equal segments - 1",
+	steps = 6,
+	setup = function()
+		
+		local p1 = P(-100,31.3)
+		local p2 = P(165,0)
+		local p3 = P(111.7,156.3)
+		local c = P(97,65)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p1,p3)
+		
+		-- Solution is in the construction :)
+		
+		local bisector = geom.bisector(p1,c)
+		local i1 = geom.intersection(bisector,l2)
+		local circle = C(c,i1)
+		
+		local j1,j2 = geom.intersection(circle,l1)
+		local i2 = j1.x < j2.x and j2 or j1
+		
+		local res1, res2 = L(i1,c), L(c,i2)
+		
+		return
+		{
+			points = {p1,p2,p3,c},
+			objects = {l1,l2},
+			targets = {res1,res2},
+			hints = {"circle", "circle", "line", res1}
+		}
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea3.5",
+	name = "Euclidea 3.5: Circle through Point Tangent to Line",
+	steps = 6,
+	setup = function()
+		
+		local r = 100
+		local theta = math.rad(132)
+		local p1 = P(0,0)
+		local p2 = P(0,-r)
+		local p3 = P(r * math.cos(theta), r * math.sin(theta))
+		local p4 = P(100,-r)
+		
+		local l1 = L(p2,p4)
+		
+		return
+		{
+			points = {p2,p3},
+			objects = {l1},
+			targets = {C(p1,p2)},
+			hints = {"circle","circle", geom.bisector(p2,p3), "line", L(p1,p2)}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea3.6",
+	name = "Euclidea 3.6: Midpoints Through Trapezoid Bases",
+	steps = 3,
+	setup = function()
+		
+		local s1,s2 = P(23,76), P(-12,-34.4)
+		
+		local w1,w2 = 45.4, 87.1
+		local t1,t2 = P(s1.x - w1, s1.y), P(s1.x + w1, s1.y)
+		local b1,b2 = P(s2.x - w2, s2.y), P(s2.x + w2, s2.y)
+		
+		local l1,l2,l3,l4 = L(t1,t2), L(t2,b2), L(b2,b1), L(b1,t1)
+		
+		local i = geom.intersection(l2,l4)
+		
+		return
+		{
+			points = {t1,t2,b1,b2,i},
+			objects = {l1,l2,l3,l4},
+			targets = {L(s1,s2)}
+		}
+	end
+})
 
 return problems

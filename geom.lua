@@ -333,6 +333,16 @@ local function project(p,l)
 	return Point(p.x - normal_offset * nx, p.y - normal_offset * ny)	
 end
 
+local function bisector(p1,p2)
+	
+	assert(p1.type == "point" and p2.type == "point")
+	
+	local c1,c2 = Circle(p1,p2), Circle(p2,p1)
+	local i1,i2 = intersection(c1,c2)
+	
+	return Line(i1,i2)
+end
+
 return
 {
 	Point = Point,
@@ -343,5 +353,6 @@ return
 	intersection = intersection,
 	belongs = belongs,
 	distance = pp_distance,
-	project = project
+	project = project,
+	bisector = bisector
 }
