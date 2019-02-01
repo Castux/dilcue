@@ -181,7 +181,7 @@ local function rec(context, depth, max_depth)
 				elseif geom.equal(hint, c1) then
 					table.insert(objects, c1)
 				elseif geom.equal(hint, c2) then
-					table.insert(object, c2)
+					table.insert(objects, c2)
 				end				
 			end
 			

@@ -623,4 +623,56 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea3.7",
+	name = "Euclidea 3.7: Angle of 45°",
+	steps = 5,
+	setup = function()
+		
+		local p1 = P(0,0)
+		local p2 = P(100,0)
+		local p3 = P(100,100)
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {L(p1,p2)},
+			targets = {L(p1,p3)},
+			hints = {"circle", "circle","line"}	-- force a solution that doesn't use the initial half line
+		}
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea3.8",
+	name = "Euclidea 3.8: Lozenge",
+	steps = 7,
+	setup = function()
+		
+		local d = 165
+		local p1 = P(0,0)
+		local p2 = P(d,0)
+		
+		local h = d * math.sin(math.rad(45))
+		local p3 = P(h,h)
+		local p4 = P(d+h,h)
+		
+		local l1,l2,l3,l4 = L(p1,p2), L(p1,p3), L(p3,p4), L(p2,p4)
+		
+		local midpoint = P(d/2, 0)
+		local hintcircle = C(midpoint, p1)
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {l1},
+			targets = {l2,l3,l4},
+			hints = {"circle", "circle", "line", hintcircle}
+		}
+	end
+})
+
 return problems
