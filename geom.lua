@@ -30,16 +30,12 @@ end
 
 
 local function Line(p1,p2)
-	return { type = "line", p1 = p1, p2 = p2 }
-end
-
-local function l_unit_normal(l)
 	
-	local vx,vy = l.p2.x - l.p1.x, l.p2.y - l.p1.y
+	local vx,vy = p2.x - p1.x, p2.y - p1.y
 	local d = math.sqrt(vx*vx + vy*vy)
 	vx,vy = vx/d, vy/d
-	
-	return vx,vy, -vy,vx
+		
+	return { type = "line", p1 = p1, p2 = p2, nx = -vy, ny = vx }
 end
 
 local function pl_point_on_line(p,l)
@@ -324,13 +320,11 @@ end
 local function project(p,l)
 
 	assert(p.type == "point" and l.type == "line")
-	
-	local vx,vy,nx,ny = l_unit_normal(l)
-	
+		
 	local dx,dy = p.x - l.p1.x, p.y - l.p1.y
-	local normal_offset = dx * nx + dy * ny
+	local normal_offset = dx * l.nx + dy * l.ny
 	
-	return Point(p.x - normal_offset * nx, p.y - normal_offset * ny)	
+	return Point(p.x - normal_offset * l.nx, p.y - normal_offset * l.ny)
 end
 
 local function bisector(p1,p2)
