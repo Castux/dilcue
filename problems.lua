@@ -675,4 +675,86 @@ table.insert(problems,
 	end
 })
 
+
+table.insert(problems,
+{
+	code = "euclidea3.9",
+	name = "Euclidea 3.9: Center of Quadrilateral",
+	steps = 10,
+	setup = function()
+		
+		local p1 = P(-201,124)
+		local p2 = P(176,199)
+		local p3 = P(109,-76)
+		local p4 = P(-132,-120)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p2,p3)
+		local l3 = L(p3,p4)
+		local l4 = L(p4,p1)
+		
+		local m1 = P((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+		local m2 = P((p3.x + p4.x) / 2, (p3.y + p4.y) / 2)
+		
+		local cx = (p1.x + p2.x + p3.x + p4.x) / 4
+		local cy = (p1.y + p2.y + p3.y + p4.y) / 4
+		
+		return
+		{
+			points = {p1,p2,p3,p4},
+			objects = {l1,l2,l3,l4},
+			targets = {P(cx,cy)},
+			-- This one has just too many points. We "help" all the way :(
+			hints = { C(p1,p2), C(p2,p1), geom.bisector(p1,p2), C(p3,p4), C(p4,p3), geom.bisector(p3,p4), L(m1,m2), C(m1,m2), C(m2,m1)}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea4.1",
+	name = "Euclidea 4.1: Double Segment",
+	steps = 3,
+	setup = function()
+		
+		local p1 = P(-100,0)
+		local p2 = P(0,0)
+		local p3 = P(100,0)
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {},
+			targets = {p3},
+			hints = { "circle", "circle", "circle" }	-- as per the instructions
+		}
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea4.2",
+	name = "Euclidea 4.2: Angle of 60° - 2",
+	steps = 4,
+	setup = function()
+		
+		local p1 = P(-70,0)
+		local p2 = P(123.12,0)
+		local p3 = P(0,140 * math.sin(math.rad(60)))
+		
+		local l1 = L(p1,p2)
+		
+		return
+		{
+			points = {p2,p3},
+			objects = {l1},
+			targets = {L(p1,p3)},
+--			hints = { "circle", "circle", "circle" }	-- as per the instructions
+		}
+	end
+})
+
+
+
 return problems
