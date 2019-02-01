@@ -176,7 +176,7 @@ table.insert(problems,
 			points = {center, p1},
 			objects = {C(center,p1)},
 			targets = {l1,l2,l3,l4},
-			hints = {"circle", "circle", "line", l2, "line", "line", "line"}
+			hints = {nil, nil, nil, l2}
 		}
 		
 	end
@@ -235,12 +235,11 @@ table.insert(problems,
 			points = {p1,p2,p3},
 			objects = {l1,l2,l3},
 			targets = {c},
-			hints = {"circle", "circle", "circle", L(p1,c)}
+			hints = {nil, nil, nil, L(p1,c)}			
 		}
 		
 	end
 })
-
 
 table.insert(problems,
 {
