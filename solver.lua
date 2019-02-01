@@ -10,6 +10,17 @@ local function make_context()
 	}
 end
 
+local function exists_point(p, context)
+	
+	for _,old in ipairs(context.points) do
+		if geom.equal(p, old) then
+			return true
+		end
+	end
+	
+	return false
+end
+
 local function all_intersections(object, context)
 	
 	local points = {}
@@ -17,13 +28,13 @@ local function all_intersections(object, context)
 	for _, previous in ipairs(context.objects) do
 		
 		local i1,i2 = geom.intersection(previous, object)
-		if i1 then
+		if i1 and not exists_point(i1, context) then
 			i1.parent1 = previous
 			i1.parent2 = object
 			table.insert(points, i1)
 		end
 		
-		if i2 then
+		if i2 and not exists_point(i2, context) then
 			i2.parent1 = previous
 			i2.parent2 = object
 			table.insert(points, i2)
@@ -31,22 +42,6 @@ local function all_intersections(object, context)
 	end
 	
 	return points
-end
-
-local function add_point_if_unique(point, context)
-
-	-- Add point if unique
-	local new = true
-	for _,old_point in ipairs(context.points) do
-		if geom.equal(point, old_point) then
-			new = false
-			break
-		end
-	end
-
-	if new then
-		table.insert(context.points, point)
-	end
 end
 
 local function exists(object, context)
@@ -59,6 +54,7 @@ local function exists(object, context)
 	
 	return false
 end
+
 
 local function check_solved(context)
 	
@@ -140,6 +136,34 @@ local function sort_candidates(candidates, context)
 		end
 	end
 	
+	if num_targets_found > 0 then
+		return
+	end
+	
+	-- Check which candidates generates points that are either targets, or on the targets
+	
+	for _,obj in ipairs(candidates) do
+		
+		obj.score = 0
+		obj.points = all_intersections(obj, context)
+		
+		for _,p in ipairs(obj.points) do
+			
+			for _,target in ipairs(context.targets) do
+				if geom.equal(p, target) then
+					obj.score = obj.score + 1000
+				elseif target.type ~= "point" and geom.belongs(p, target) then
+					obj.score = obj.score + 1
+				elseif target.type == "circle" and geom.equal(p, target.center) then
+					obj.score = obj.score + 10
+				end
+			end
+		end
+		
+	end
+	
+	table.sort(candidates, function(a,b) return a.score > b.score end)
+	
 end
 
 local function rec(context, depth, max_depth)
@@ -162,8 +186,10 @@ local function rec(context, depth, max_depth)
 		
 		local num_points_before = #context.points
 		
-		for _,point in ipairs(all_intersections(object, context)) do
-			add_point_if_unique(point, context)
+		local points = object.points or all_intersections(object, context)
+		
+		for _,point in ipairs(points) do
+			table.insert(context.points, point)
 		end
 		
 		-- We already insured this object is new, insert directly
