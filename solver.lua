@@ -124,6 +124,24 @@ local function candidates(context, hint)
 	return res
 end
 
+local function sort_candidates(candidates, context)
+	
+	-- Build targets first!
+	
+	local num_targets_found = 0
+	
+	for i = 1, #candidates do
+		local obj = candidates[i]		
+		for _,target in ipairs(context.targets) do
+			if geom.equal(obj, target) then
+				num_targets_found = num_targets_found + 1
+				candidates[num_targets_found], candidates[i] = candidates[i], candidates[num_targets_found]
+			end
+		end
+	end
+	
+end
+
 local function rec(context, depth, max_depth)
 
 	if depth > max_depth then
@@ -136,6 +154,7 @@ local function rec(context, depth, max_depth)
 	-- Make all (uniquely) new possible constructions from existing points
 	
 	local objects = candidates(context, context.hints and context.hints[depth])
+	sort_candidates(objects, context)
 	
 	for _,object in ipairs(objects) do
 		
