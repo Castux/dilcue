@@ -776,6 +776,33 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea4.4",
+	name = "Euclidea 4.4: Equilateral Triangle in Circle",
+	steps = 6,
+	setup = function()
+		
+		local r = 100
+		local c = P(0,0)
+		
+		local t0 = P(r,0)
+		local t1 = P(r * math.cos(math.rad(120)), r * math.sin(math.rad(120)))
+		local t2 = P(t1.x, -t1.y)
+		
+		local theta = math.rad(37.23)
+		local h1 = P(r * math.cos(theta), r * math.sin(theta))
+		
+		return
+		{
+			points = {t0,h1},
+			objects = {C(c,t0)},
+			targets = { L(t1,t2), L(t2,t0), L(t0,t1)},
+			restrictions = {"circle", "circle", "circle", "line", "line", "line" }
+		}
+	end
+})
+
 
 
 
