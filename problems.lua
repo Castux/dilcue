@@ -798,4 +798,107 @@ table.insert(problems,
 	end
 })
 
+
+table.insert(problems,
+{
+	code = "euclidea4.6",
+	name = "Euclidea 4.6: Square Root of 2",
+	steps = 5,
+	setup = function()
+		
+		local r = 80
+		
+		local p1 = P(-r,0)
+		local p2 = P(0,0)
+		
+		local t = P(r * math.sqrt(2) - r,0)
+		local l = L(p1,p2)
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {l},
+			targets = {t}
+		}
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea4.7",
+	name = "Euclidea 4.7: Square Root of 3",
+	steps = 3,
+	setup = function()
+		
+		local r = 80
+		
+		local p1 = P(-r,0)
+		local p2 = P(0,0)
+		
+		local t = P(r * math.sqrt(3) - r,0)
+		local l = L(p1,p2)
+		
+		return
+		{
+			points = {p1,p2},
+			objects = {l},
+			targets = {t}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea4.8",
+	name = "Euclidea 4.8: Angle of 15°",
+	steps = 5,
+	setup = function()
+		
+		local p1 = P(0,0)
+		local p2 = P(100,0)
+		local p3 = P(100 * math.cos(math.rad(15)), 100 * math.sin(math.rad(15)))
+		
+		return
+		{
+			points = {p1, p2},
+			objects = {L(p1,p2)},
+			targets = {L(p1,p3)}
+		}
+		
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea4.9",
+	name = "Euclidea 4.9: Square by Opposite Midpoints",
+	steps = 10,
+	setup = function()
+		
+		local r = 100
+		
+		local t1 = P(r,r)
+		local t2 = P(r,-r)
+		local t3 = P(-r,-r)
+		local t4 = P(-r,r)
+		
+		local l1 = L(t1,t2)
+		local l2 = L(t2,t3)
+		local l3 = L(t3,t4)
+		local l4 = L(t4,t1)
+		
+		local p1 = P(-r,0)
+		local p2 = P(r,0)
+		
+		return
+		{
+			points = {p1, p2},
+			objects = {},
+			targets = {l1,l2,l3,l4}
+		}
+	end
+})
+
+
 return problems
