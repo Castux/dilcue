@@ -151,10 +151,18 @@ end
 
 local function rec(context, depth, max_depth)
 
+	-- Stop if we're solved, obviously
+	
 	if depth > max_depth then
 		if check_solved(context) then
 			context.solved = true			
 		end
+		return
+	end
+	
+	-- Stop if there aren't enough remaining steps to build all targets
+	
+	if context.lc_targets - context.lc_targets_built > max_depth - depth + 1 then
 		return
 	end
 	
