@@ -876,7 +876,7 @@ table.insert(problems,
 	steps = 10,
 	setup = function()
 		
-		local r = 100
+		local r = 50
 		
 		local t1 = P(r,r)
 		local t2 = P(r,-r)
@@ -895,7 +895,8 @@ table.insert(problems,
 		{
 			points = {p1, p2},
 			objects = {},
-			targets = {l1,l2,l3,l4}
+			targets = {l1,l2,l3,l4},
+			restrictions = {"circle","circle", "line", "line", "circle"}
 		}
 	end
 })
