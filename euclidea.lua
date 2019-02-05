@@ -73,25 +73,24 @@ end
 
 local function run()
 	
-	local res = {}
-	table.insert(res, string.format(html_header, "Euclidea Solutions"))
+	local fp = io.open(output_dir .. "/solutions.html", "w")
+	fp:write(string.format(html_header, "Euclidea Solutions"), "\n")
 	
 	for _,p in ipairs(problems) do
 		local svg, txt = treat_problem(p)
 		
 		if svg and txt then
-			table.insert(res, string.format(html_title, p.name))
-			table.insert(res, svg)
+			fp:write(string.format(html_title, p.name), "\n")
+			fp:write(svg,  "\n")
 			
 			local corrected_text = "<p>" .. txt:gsub("\n", "<br />") .. "</p>"
-			table.insert(res, corrected_text)
+			fp:write(corrected_text, "\n")
+			
+			fp:flush()
 		end
 	end
 	
-	table.insert(res, html_footer)
-	
-	local fp = io.open(output_dir .. "/solutions.html", "w")
-	fp:write(table.concat(res, '\n'))
+	fp:write(html_footer, "\n")
 	fp:close()
 end
 
