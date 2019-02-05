@@ -841,9 +841,10 @@ table.insert(problems,
 		return
 		{
 			points = {p1,p2,p3,p4,q1,q2,q3,q4},
-			objects = {l1,l2,l3,l4,m1,m2,m3,m4},
+			objects = {},
+			--objects = {l1,l2,l3,l4,m1,m2,m3,m4},
 			targets = {tl},
-			restrictions = {L(p1,p3), L(p2,p4), L(q1,q3), L(q2,q4)}
+			restrictions = {"line", "line", "line", "line", "line"}
 		}
 	end
 })
