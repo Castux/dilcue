@@ -24,10 +24,11 @@ end
 local function insert_point(p, context)
 	
 	if exists_point(p, context) then
-		return
+		return false
 	end
 	
 	table.insert(context.points, p)
+	return true
 end
 
 local function all_intersections(object, context)
@@ -67,21 +68,9 @@ end
 
 local function check_solved(context)
 	
-	local num_reached = 0
-	for i,target in ipairs(context.targets) do
-		
-		local list = target.type == "point" and context.points or context.objects
-		
-		for _,o in ipairs(list) do
-			if geom.equal(o, target) then
-				o.is_target = true
-				num_reached = num_reached + 1
-				break
-			end
-		end
-	end
-	
-	return num_reached == #context.targets
+	return context.lc_targets_built == context.lc_targets and
+		context.point_targets_built == context.point_targets
+
 end
 
 local function matches_restriction(object, restriction)
@@ -139,12 +128,25 @@ local function sort_candidates(candidates, context)
 		local obj = candidates[i]		
 		for _,target in ipairs(context.targets) do
 			if geom.equal(obj, target) then
+				obj.is_target = true
 				num_targets_found = num_targets_found + 1
 				candidates[num_targets_found], candidates[i] = candidates[i], candidates[num_targets_found]
 			end
 		end
 	end
 	
+end
+
+local function is_point_target(p, context)
+	
+	for _,target in ipairs(context.targets) do
+		if geom.equal(p, target) then
+			p.is_target = true
+			return true
+		end
+	end
+	
+	return false
 end
 
 local function rec(context, depth, max_depth)
@@ -170,12 +172,18 @@ local function rec(context, depth, max_depth)
 		local points = all_intersections(object, context)
 		
 		for _,point in ipairs(points) do
-			insert_point(point, context)	-- these points might be duplicates, use function with check
+			local inserted = insert_point(point, context)	-- these points might be duplicates, use function with check
+			if inserted and is_point_target(point, context) then
+				context.point_targets_built = context.point_targets_built + 1
+			end
 		end
 		
 		-- We already insured this object is new, insert directly
  		
 		table.insert(context.objects, object)
+		if object.is_target then
+			context.lc_targets_built = context.lc_targets_built + 1
+		end
 		
 		-- Recurse!
 		
@@ -188,10 +196,16 @@ local function rec(context, depth, max_depth)
 		-- Backtrack
 		
 		for i = num_points_before + 1, #context.points do
+			if context.points[i].is_target then
+				context.point_targets_built = context.point_targets_built - 1
+			end
 			context.points[i] = nil
 		end
 		
 		context.objects[#context.objects] = nil
+		if object.is_target then
+			context.lc_targets_built = context.lc_targets_built - 1
+		end
 	end
 	
 end
@@ -285,9 +299,20 @@ local function solve(context, steps)
 		o.given = true
 	end
 	
+	context.lc_targets = 0
+	context.point_targets = 0
+	
 	for _,o in ipairs(context.targets) do
+		if o.type == "point" then
+			context.point_targets = context.point_targets + 1
+		else
+			context.lc_targets = context.lc_targets + 1
+		end
 		o.is_target = true
 	end
+	
+	context.lc_targets_built = 0
+	context.point_targets_built = 0
 	
 	rec(context, 1, steps)
 	if context.solved then
