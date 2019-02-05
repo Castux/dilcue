@@ -848,8 +848,6 @@ table.insert(problems,
 	end
 })
 
-do return problems end
-
 table.insert(problems,
 {
 	code = "euclidea4.6",
@@ -985,5 +983,25 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea5.1",
+	name = "Euclidea 5.1: Parallel Line",
+	steps = 4,
+	setup = function()
+		
+		local p1 = P(-100,0)
+		local p2 = P(-275.1,0)
+		local p3 = P(0,79)
+		local p4 = P(100,79)
+				
+		return
+		{
+			points = {p1,p3},
+			objects = {L(p1,p2)},
+			targets = {L(p3,p4)}
+		}
+	end
+})
 
 return problems
