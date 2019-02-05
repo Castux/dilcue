@@ -120,8 +120,7 @@ table.insert(problems,
 		{
 			points = {p2, p3, p4, p1},
 			objects = {l1, l2, l3, l4},
-			targets = {L(p4,s1), L(p2,s2)},
-			restrictions = {"circle", "circle", L(s1,s2) }
+			targets = {L(p4,s1), L(p2,s2)}
 		}
 		
 	end
@@ -175,8 +174,7 @@ table.insert(problems,
 		{
 			points = {center, p1},
 			objects = {C(center,p1)},
-			targets = {l1,l2,l3,l4},
-			restrictions = {nil, nil, nil, l2}
+			targets = {l1,l2,l3,l4}
 		}
 		
 	end
@@ -667,8 +665,7 @@ table.insert(problems,
 		{
 			points = {p1,p2},
 			objects = {l1},
-			targets = {l2,l3,l4},
-			restrictions = {nil, nil, nil, restrictioncircle}
+			targets = {l2,l3,l4}
 		}
 	end
 })
@@ -770,8 +767,7 @@ table.insert(problems,
 		{
 			points = {p1,p2},
 			objects = {C(p1,p2)},
-			targets = { L(t1,t2), L(t2,t3), L(t3,t1)},
-			restrictions = { "line", "circle", "circle", "line", "line", "line" }
+			targets = { L(t1,t2), L(t2,t3), L(t3,t1)}
 		}
 	end
 })
@@ -797,13 +793,9 @@ table.insert(problems,
 		{
 			points = {t0,h1},
 			objects = {C(c,t0)},
-			targets = { L(t1,t2), L(t2,t0), L(t0,t1)},
-			restrictions = {"circle", "circle", "circle", "line", "line", "line" }
+			targets = { L(t1,t2), L(t2,t0), L(t0,t1)}
 		}
 	end
 })
-
-
-
 
 return problems
