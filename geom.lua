@@ -3,6 +3,9 @@ local eps = 1e-6
 --[[ Point ]]--
 
 local function Point(x,y)
+	
+	assert(x == x and y == y, "NaN in point")
+	
 	return { type = "point", x = x, y = y }
 end
 
@@ -31,7 +34,10 @@ end
 
 local function Line(p1,p2)
 	
+	assert(not pp_equal(p1,p2), "Singular line")
+	
 	local vx,vy = p2.x - p1.x, p2.y - p1.y
+	
 	local d = math.sqrt(vx*vx + vy*vy)
 	vx,vy = vx/d, vy/d
 		
@@ -74,6 +80,9 @@ end
 --[[ Circle ]]--
 
 local function Circle(center, p)
+	
+	assert(not pp_equal(center, p), "Singular circle")
+	
 	local sqrad = pp_squared_distance(center, p)
 	local rad = math.sqrt(sqrad)
 	
@@ -133,7 +142,7 @@ local function cc_intersection(c1,c2)
 	local r0 = c1.rad
 	local r1 = c2.rad
 	
-	if d > r0 + r1 + eps or d < math.abs(r0 - r1) - eps or cc_equal(c1,c2) then
+	if d > r0 + r1 or d < math.abs(r0 - r1) or cc_equal(c1,c2) then
 		return nil
 	end
 	
@@ -142,7 +151,12 @@ local function cc_intersection(c1,c2)
 	local px = c1.center.x + a * (c2.center.x - c1.center.x) / d
 	local py = c1.center.y + a * (c2.center.y - c1.center.y) / d
 	
-	local h = math.sqrt(r0 * r0 - a * a)
+	local h2 = r0 * r0 - a * a
+	if h2 < 0 then
+		return nil
+	end
+	
+	local h = math.sqrt(h2)
 	
 	if h < eps then
 		return Point(px,py)

@@ -21,6 +21,15 @@ local function exists_point(p, context)
 	return false
 end
 
+local function insert_point(p, context)
+	
+	if exists_point(p, context) then
+		return
+	end
+	
+	table.insert(context.points, p)
+end
+
 local function all_intersections(object, context)
 	
 	local points = {}
@@ -28,13 +37,13 @@ local function all_intersections(object, context)
 	for _, previous in ipairs(context.objects) do
 		
 		local i1,i2 = geom.intersection(previous, object)
-		if i1 and not exists_point(i1, context) then
+		if i1 then
 			i1.parent1 = previous
 			i1.parent2 = object
 			table.insert(points, i1)
 		end
 		
-		if i2 and not exists_point(i2, context) then
+		if i2 then
 			i2.parent1 = previous
 			i2.parent2 = object
 			table.insert(points, i2)
@@ -161,7 +170,7 @@ local function rec(context, depth, max_depth)
 		local points = all_intersections(object, context)
 		
 		for _,point in ipairs(points) do
-			table.insert(context.points, point)		-- all points are new, insert directly
+			insert_point(point, context)	-- these points might be duplicates, use function with check
 		end
 		
 		-- We already insured this object is new, insert directly
