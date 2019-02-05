@@ -798,6 +798,57 @@ table.insert(problems,
 	end
 })
 
+table.insert(problems,
+{
+	code = "euclidea4.5",
+	name = "Euclidea 4.5: Cut Two Rectangles",
+	steps = 5,
+	setup = function()
+		
+		local k = 81.123
+		local l = 33.987
+		
+		local dx = 201
+		local dy = -45
+	
+		local p1 = P(-k + dx,l + dy)
+		local p2 = P(k + dx,l + dy)
+		local p3 = P(k + dx,-l + dy)
+		local p4 = P(-k + dx,-l + dy)
+		
+		local l1,l2,l3,l4 = L(p1,p2), L(p2,p3), L(p3,p4), L(p4,p1)
+		
+		local k = 35.23
+		local l = 87.1
+		
+		local dx = -225
+		local dy = -156
+	
+		local q1 = P(k + dx,l + dy)
+		local q2 = P(l + dx,k + dy)
+		local q3 = P(-k + dx,-l + dy)
+		local q4 = P(-l + dx,-k + dy)
+		
+		local m1,m2,m3,m4 = L(q1,q2), L(q2,q3), L(q3,q4), L(q4,q1)
+		
+		local cx = (p1.x + p2.x + p3.x + p4.x) / 4
+		local cy = (p1.y + p2.y + p3.y + p4.y) / 4
+		local dx = (q1.x + q2.x + q3.x + q4.x) / 4
+		local dy = (q1.y + q2.y + q3.y + q4.y) / 4
+		
+		local tl = L(P(cx,cy), P(dx,dy))
+		
+		return
+		{
+			points = {p1,p2,p3,p4,q1,q2,q3,q4},
+			objects = {l1,l2,l3,l4,m1,m2,m3,m4},
+			targets = {tl},
+			restrictions = {L(p1,p3), L(p2,p4), L(q1,q3), L(q2,q4)}
+		}
+	end
+})
+
+do return problems end
 
 table.insert(problems,
 {
@@ -876,7 +927,7 @@ table.insert(problems,
 	steps = 10,
 	setup = function()
 		
-		local r = 50
+		local r = 75
 		
 		local t1 = P(r,r)
 		local t2 = P(r,-r)
@@ -896,7 +947,40 @@ table.insert(problems,
 			points = {p1, p2},
 			objects = {},
 			targets = {l1,l2,l3,l4},
-			restrictions = {"circle","circle", "line", "line", "circle"}
+			restrictions = {"circle","circle", "line", "line", "circle", "line", "line", "line", "circle", "line"}
+		}
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea4.10",
+	name = "Euclidea 4.10: Square by Adjacent Midpoints",
+	steps = 10,
+	setup = function()
+		
+		local r = 75
+		
+		local t1 = P(r,r)
+		local t2 = P(r,-r)
+		local t3 = P(-r,-r)
+		local t4 = P(-r,r)
+		
+		local l1 = L(t1,t2)
+		local l2 = L(t2,t3)
+		local l3 = L(t3,t4)
+		local l4 = L(t4,t1)
+		
+		local p1 = P(0,r)
+		local p2 = P(r,0)
+		
+		return
+		{
+			points = {p1, p2},
+			objects = {},
+			targets = {l1,l2,l3,l4},
+			restrictions = {"line", "circle","circle", "line", "circle", "line", "line", "circle", "line", "line"}
 		}
 	end
 })
