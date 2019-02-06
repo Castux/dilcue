@@ -1005,4 +1005,75 @@ table.insert(problems,
 	end
 })
 
+
+table.insert(problems,
+{
+	code = "euclidea5.2",
+	name = "Euclidea 5.2: Parallelogram by Three Vertices",
+	steps = 6,
+	setup = function()
+		
+		local p1 = P(-100,0)
+		local p2 = P(100,0)
+		local p3 = P(-80,80)
+		local p4 = P(120,80)
+		
+		local l1 = L(p1,p2)
+		local l2 = L(p1,p3)
+		local l3 = L(p2,p4)
+		local l4 = L(p3,p4)
+		
+		return
+		{
+			points = {p1,p2,p3},
+			objects = {l1,l2},
+			targets = {l3,l4},
+			restrictions = {"circle", "circle", "circle", "circle", "line", "line"}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea5.3",
+	name = "Euclidea 5.3: Line Equidistant from Two points - 1",
+	steps = 4,
+	setup = function()
+		
+		local p1 = P(-100,0)
+		local p2 = P(-275.1,0)
+		local p3 = P(0,79)
+		local p4 = P(100,79)
+				
+		return
+		{
+			points = {p1,p2,p3},
+			objects = {},
+			targets = {L(p3,p4)}
+		}
+	end
+})
+
+
+table.insert(problems,
+{
+	code = "euclidea5.4",
+	name = "Euclidea 5.4: Line Equidistant from Two points - 2",
+	steps = 5,
+	setup = function()
+		
+		local p1 = P(-100,-35)
+		local p2 = P(87.3,35)
+		local p3 = P(235,0)
+		local p4 = P(-200,0)
+				
+		return
+		{
+			points = {p1,p2,p3},
+			objects = {},
+			targets = {L(p3,p4)}
+		}
+	end
+})
+
 return problems
