@@ -59,15 +59,7 @@ line: (AC)
 
 And the SVG looks like:
 
-<svg width="600" height="450" viewbox="-400.00 -300.00 800.00 600.00">
-<line x1="3900.00" y1="-0.00" x2="-4100.00" y2="-0.00" style="stroke:grey;stroke-width:2" />
-<circle cx="-100.00" cy="-0.00" r="200.00" stroke="grey" stroke-width="2" fill="none" />
-<circle cx="100.00" cy="-0.00" r="200.00" stroke="grey" stroke-width="2" fill="none" />
-<line x1="1900.00" y1="-3464.10" x2="-2100.00" y2="3464.10" style="stroke:gold;stroke-width:2" />
-<circle cx="-100.00" cy="-0.00" r="4" stroke="none" fill="blue" /><text x="-90.00" y="20.00" style="font-family:sans-serif;font-weight:bold;fill:#494949">A</text>
-<circle cx="100.00" cy="-0.00" r="4" stroke="none" fill="blue" /><text x="110.00" y="20.00" style="font-family:sans-serif;font-weight:bold;fill:#494949">B</text>
-<circle cx="0.00" cy="-173.21" r="4" stroke="none" fill="grey" /><text x="10.00" y="-153.21" style="font-family:sans-serif;font-weight:bold;fill:#494949">C</text>
-</svg>
+![Example SVG](example.svg)
 
 ## Algorithm
 
@@ -112,7 +104,7 @@ Consequently, the number of buildable objects and the number of points at each s
 4	956
 5	48316
 6	~ 6 million
-7	Over 300 billion
+7	~ 1 billion
 ```
 
 And this is a lower bound: most problems have more points and constructions in their initial state. In practice on my machine, problems of 5 steps or less take a few seconds, 6 steps can take a few minutes, and I never saw 7 or above go to completion.
