@@ -1,4 +1,4 @@
-local svg_inline_header = '<svg width="%d" height="%d" viewbox="%.2f %.2f %.2f %.2f">'
+local svg_inline_header = '<svg width="%d" height="%d" viewBox="%.2f %.2f %.2f %.2f">'
 local svg_line = '<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" style="stroke:%s;stroke-width:2" />'
 local svg_circle = '<circle cx="%.2f" cy="%.2f" r="%.2f" stroke="%s" stroke-width="2" fill="none" />'
 local svg_point = '<circle cx="%.2f" cy="%.2f" r="4" stroke="none" fill="%s" />'

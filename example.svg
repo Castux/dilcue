@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg"
      version="1.1"
-     width="600" height="450" viewbox="-400.00 -300.00 800.00 600.00">
+     width="600" height="450" viewBox="-400.00 -300.00 800.00 600.00">
 <line x1="3900.00" y1="-0.00" x2="-4100.00" y2="-0.00" style="stroke:grey;stroke-width:2" />
 <circle cx="-100.00" cy="-0.00" r="200.00" stroke="grey" stroke-width="2" fill="none" />
 <circle cx="100.00" cy="-0.00" r="200.00" stroke="grey" stroke-width="2" fill="none" />
