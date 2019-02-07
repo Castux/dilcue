@@ -90,6 +90,7 @@ I find that segments and half-lines are not very much in the spirit of Euclidian
 
 - The solver does not (re)build intersections between objects given in the initial context. Only intersections with new objects. Make sure that your initial set of points contains all intersections between initial lines and circles.
 - All computations are done using double-precision floating point numbers, which accumulate errors over time. Two points are considered equal if their computed distance is less than a certain `epsilon`, hard coded to `1e-5`. Likewise for a point on a line or circle, etc.
+- This is purely numerical, there is no attempt to prove correctness in any way or to deduce geometrical facts. There is no way to express "must work for any point such that X" or similar statements. This is why I use a lot of random looking numbers in the problem definitions, to avoid accidentally falling on a special case for which the solution is easier to find.
 
 ## Computational complexity
 
