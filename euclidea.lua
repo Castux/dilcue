@@ -10,6 +10,7 @@ local html_header = [[
 	<title>%s</title>
 </head>
 <body>
+<p>Solver and explanations: <a href="https://castux.github.com/dilcue/"> on Github</a>.</p>
 ]]
 
 local html_title = [[
