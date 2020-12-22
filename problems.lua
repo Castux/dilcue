@@ -986,6 +986,61 @@ table.insert(problems,
 
 table.insert(problems,
 {
+	code = "euclidea4.11",
+	name = "Euclidea 4.11: Square by Two Vertices",
+	steps = 7,
+	setup = function()
+		
+		local r = 75
+		
+		local p1 = P(-r,-r)
+		local p2 = P(r,-r)
+		
+		local t1 = P(-r,r)
+		local t2 = P(r,r)
+
+		return
+		{
+			points = {p1, p2},
+			objects = {},
+			targets = {t1, t2},
+			restrictions = {"circle", "circle", "circle", "circle", "circle", "circle", "circle"}
+		}
+	end
+})
+
+table.insert(problems,
+{
+	code = "euclidea4.11b",
+	name = "Euclidea 4.11: Square by Two Vertices, variant",
+	steps = 7,
+	setup = function()
+		
+		local r = 75
+		
+		local p1 = P(-r,0)
+		local p2 = P(r,0)
+		
+		local t1 = P(0,r)
+		local t2 = P(0,-r)
+		
+		-- Hints
+		local c1 = C(p1,p2)
+		local c2 = C(p2,p1)
+		local i1,i2 = geom.intersection(c1,c2)
+
+		return
+		{
+			points = {p1, p2},
+			objects = {},
+			targets = {t1, t2},
+			restrictions = {c1, c2, C(i1,i2), "circle", "circle", "circle", "circle"}
+		}
+	end
+})
+
+table.insert(problems,
+{
 	code = "euclidea5.1",
 	name = "Euclidea 5.1: Parallel Line",
 	steps = 4,
